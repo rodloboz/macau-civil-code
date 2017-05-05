@@ -26,3 +26,187 @@ Migrating to DeviseCreateUsers (20170504135408)
   [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
   [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6381076293805028970)[0m
   [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6381076293805028970);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (204.0ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateBooks (20170505101917)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1183.8ms)[0m  [1m[35mCREATE TABLE "books" ("id" serial primary key, "number" character varying, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL)[0m
+  [1m[35mSQL (255.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505101917"]]
+  [1m[35m (255.8ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateTitles (20170505102353)
+  [1m[35m (86.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1399.5ms)[0m  [1m[35mCREATE TABLE "titles" ("id" serial primary key, "number" character varying, "book_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_a4af72198d"
+FOREIGN KEY ("book_id")
+  REFERENCES "books" ("id")
+)[0m
+  [1m[35m (456.8ms)[0m  [1m[35mCREATE  INDEX  "index_titles_on_book_id" ON "titles"  ("book_id")[0m
+  [1m[35mSQL (47.5ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102353"]]
+  [1m[35m (147.5ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSubtitles (20170505102415)
+  [1m[35m (82.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (295.4ms)[0m  [1m[35mCREATE TABLE "subtitles" ("id" serial primary key, "number" character varying, "title_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_a63dfa0278"
+FOREIGN KEY ("title_id")
+  REFERENCES "titles" ("id")
+)[0m
+  [1m[35m (92.8ms)[0m  [1m[35mCREATE  INDEX  "index_subtitles_on_title_id" ON "subtitles"  ("title_id")[0m
+  [1m[35mSQL (1.1ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102415"]]
+  [1m[35m (82.7ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateChapters (20170505102439)
+  [1m[35m (98.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (171.5ms)[0m  [1m[35mCREATE TABLE "chapters" ("id" serial primary key, "number" character varying, "title_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_afb14bec2e"
+FOREIGN KEY ("title_id")
+  REFERENCES "titles" ("id")
+)[0m
+  [1m[35m (159.3ms)[0m  [1m[35mCREATE  INDEX  "index_chapters_on_title_id" ON "chapters"  ("title_id")[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102439"]]
+  [1m[35m (41.4ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSections (20170505102458)
+  [1m[35m (81.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (210.6ms)[0m  [1m[35mCREATE TABLE "sections" ("id" serial primary key, "number" character varying, "chapter_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_904826a819"
+FOREIGN KEY ("chapter_id")
+  REFERENCES "chapters" ("id")
+)[0m
+  [1m[35m (117.2ms)[0m  [1m[35mCREATE  INDEX  "index_sections_on_chapter_id" ON "sections"  ("chapter_id")[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102458"]]
+  [1m[35m (81.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSubsections (20170505102512)
+  [1m[35m (81.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (48.1ms)[0m  [1m[35mCREATE TABLE "subsections" ("id" serial primary key, "number" character varying, "section_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_dd9427d3db"
+FOREIGN KEY ("section_id")
+  REFERENCES "sections" ("id")
+)[0m
+  [1m[35m (101.5ms)[0m  [1m[35mCREATE  INDEX  "index_subsections_on_section_id" ON "subsections"  ("section_id")[0m
+  [1m[35mSQL (0.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102512"]]
+  [1m[35m (174.1ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateDivisions (20170505102524)
+  [1m[35m (83.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (307.6ms)[0m  [1m[35mCREATE TABLE "divisions" ("id" serial primary key, "number" character varying, "section_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_8de3f2d078"
+FOREIGN KEY ("section_id")
+  REFERENCES "sections" ("id")
+)[0m
+  [1m[35m (354.0ms)[0m  [1m[35mCREATE  INDEX  "index_divisions_on_section_id" ON "divisions"  ("section_id")[0m
+  [1m[35mSQL (24.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102524"]]
+  [1m[35m (599.0ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateSubdivisions (20170505102537)
+  [1m[35m (128.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (10.8ms)[0m  [1m[35mCREATE TABLE "subdivisions" ("id" serial primary key, "number" character varying, "division_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_d2d7a5cfd8"
+FOREIGN KEY ("division_id")
+  REFERENCES "divisions" ("id")
+)[0m
+  [1m[35m (14.7ms)[0m  [1m[35mCREATE  INDEX  "index_subdivisions_on_division_id" ON "subdivisions"  ("division_id")[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505102537"]]
+  [1m[35m (2.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (115.1ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6381076293805028970)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6381076293805028970);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateArticles (20170505103244)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (110.1ms)[0m  [1m[35mCREATE TABLE "articles" ("id" serial primary key, "number" integer, "pt" text, "book_id" integer, "title_id" integer, "subtitle_id" integer, "chapter_id" integer, "section_id" integer, "subsection_id" integer, "division_id" integer, "subdivision_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_99b5b2e73a"
+FOREIGN KEY ("book_id")
+  REFERENCES "books" ("id")
+, CONSTRAINT "fk_rails_abdc3fa4b7"
+FOREIGN KEY ("title_id")
+  REFERENCES "titles" ("id")
+, CONSTRAINT "fk_rails_dd5a338734"
+FOREIGN KEY ("subtitle_id")
+  REFERENCES "subtitles" ("id")
+, CONSTRAINT "fk_rails_b48e884a25"
+FOREIGN KEY ("chapter_id")
+  REFERENCES "chapters" ("id")
+, CONSTRAINT "fk_rails_582ee7da77"
+FOREIGN KEY ("section_id")
+  REFERENCES "sections" ("id")
+, CONSTRAINT "fk_rails_d0591767f2"
+FOREIGN KEY ("subsection_id")
+  REFERENCES "subsections" ("id")
+, CONSTRAINT "fk_rails_976757d0f3"
+FOREIGN KEY ("division_id")
+  REFERENCES "divisions" ("id")
+, CONSTRAINT "fk_rails_6e95c84b5f"
+FOREIGN KEY ("subdivision_id")
+  REFERENCES "subdivisions" ("id")
+)[0m
+  [1m[35m (24.6ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_book_id" ON "articles"  ("book_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_title_id" ON "articles"  ("title_id")[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_subtitle_id" ON "articles"  ("subtitle_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_chapter_id" ON "articles"  ("chapter_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_section_id" ON "articles"  ("section_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_subsection_id" ON "articles"  ("subsection_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_division_id" ON "articles"  ("division_id")[0m
+  [1m[35m (1.1ms)[0m  [1m[35mCREATE  INDEX  "index_articles_on_subdivision_id" ON "articles"  ("subdivision_id")[0m
+  [1m[35mSQL (29.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505103244"]]
+  [1m[35m (36.2ms)[0m  [1m[35mCOMMIT[0m
+Migrating to CreateHeadings (20170505103408)
+  [1m[35m (24.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (124.7ms)[0m  [1m[35mCREATE TABLE "headings" ("id" serial primary key, "pt" text, "article_id" integer, "book_id" integer, "title_id" integer, "subtitle_id" integer, "chapter_id" integer, "section_id" integer, "subsection_id" integer, "division_id" integer, "subdivision_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_5822fc666f"
+FOREIGN KEY ("article_id")
+  REFERENCES "articles" ("id")
+, CONSTRAINT "fk_rails_59df1fa731"
+FOREIGN KEY ("book_id")
+  REFERENCES "books" ("id")
+, CONSTRAINT "fk_rails_f090425e61"
+FOREIGN KEY ("title_id")
+  REFERENCES "titles" ("id")
+, CONSTRAINT "fk_rails_9a064a40d9"
+FOREIGN KEY ("subtitle_id")
+  REFERENCES "subtitles" ("id")
+, CONSTRAINT "fk_rails_42881c5715"
+FOREIGN KEY ("chapter_id")
+  REFERENCES "chapters" ("id")
+, CONSTRAINT "fk_rails_45267ab0df"
+FOREIGN KEY ("section_id")
+  REFERENCES "sections" ("id")
+, CONSTRAINT "fk_rails_f269df675a"
+FOREIGN KEY ("subsection_id")
+  REFERENCES "subsections" ("id")
+, CONSTRAINT "fk_rails_d26c65e124"
+FOREIGN KEY ("division_id")
+  REFERENCES "divisions" ("id")
+, CONSTRAINT "fk_rails_5b66954fa3"
+FOREIGN KEY ("subdivision_id")
+  REFERENCES "subdivisions" ("id")
+)[0m
+  [1m[35m (1.4ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_article_id" ON "headings"  ("article_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_book_id" ON "headings"  ("book_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_title_id" ON "headings"  ("title_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_subtitle_id" ON "headings"  ("subtitle_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_chapter_id" ON "headings"  ("chapter_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_section_id" ON "headings"  ("section_id")[0m
+  [1m[35m (1.5ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_subsection_id" ON "headings"  ("subsection_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_division_id" ON "headings"  ("division_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_headings_on_subdivision_id" ON "headings"  ("subdivision_id")[0m
+  [1m[35mSQL (0.4ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505103408"]]
+  [1m[35m (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6381076293805028970)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.3ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT pg_try_advisory_lock(6381076293805028970);[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.5ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTranslations (20170505103741)
+  [1m[35m (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (23.1ms)[0m  [1m[35mCREATE TABLE "translations" ("id" serial primary key, "en" text, "user_id" integer, "article_id" integer, "heading_id" integer, "created_at" timestamp NOT NULL, "updated_at" timestamp NOT NULL, CONSTRAINT "fk_rails_47b812cb6f"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+, CONSTRAINT "fk_rails_fbc28fa84b"
+FOREIGN KEY ("article_id")
+  REFERENCES "articles" ("id")
+, CONSTRAINT "fk_rails_4a06e92b82"
+FOREIGN KEY ("heading_id")
+  REFERENCES "headings" ("id")
+)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE  INDEX  "index_translations_on_user_id" ON "translations"  ("user_id")[0m
+  [1m[35m (1.3ms)[0m  [1m[35mCREATE  INDEX  "index_translations_on_article_id" ON "translations"  ("article_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mCREATE  INDEX  "index_translations_on_heading_id" ON "translations"  ("heading_id")[0m
+  [1m[35mSQL (1.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ($1) RETURNING "version"[0m  [["version", "20170505103741"]]
+  [1m[35m (21.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.5ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", :environment], ["LIMIT", 1]]
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT pg_advisory_unlock(6381076293805028970)[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.4ms)[0m  [1m[34mSELECT "schema_migrations".* FROM "schema_migrations"[0m
