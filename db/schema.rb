@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170505103741) do
+ActiveRecord::Schema.define(version: 20170505113439) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,17 +47,19 @@ ActiveRecord::Schema.define(version: 20170505103741) do
   create_table "chapters", force: :cascade do |t|
     t.string   "number"
     t.integer  "title_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "subtitle_id"
+    t.index ["subtitle_id"], name: "index_chapters_on_subtitle_id", using: :btree
     t.index ["title_id"], name: "index_chapters_on_title_id", using: :btree
   end
 
   create_table "divisions", force: :cascade do |t|
     t.string   "number"
-    t.integer  "section_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["section_id"], name: "index_divisions_on_section_id", using: :btree
+    t.integer  "subsection_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["subsection_id"], name: "index_divisions_on_subsection_id", using: :btree
   end
 
   create_table "headings", force: :cascade do |t|
@@ -161,8 +163,9 @@ ActiveRecord::Schema.define(version: 20170505103741) do
   add_foreign_key "articles", "subsections"
   add_foreign_key "articles", "subtitles"
   add_foreign_key "articles", "titles"
+  add_foreign_key "chapters", "subtitles"
   add_foreign_key "chapters", "titles"
-  add_foreign_key "divisions", "sections"
+  add_foreign_key "divisions", "subsections"
   add_foreign_key "headings", "articles"
   add_foreign_key "headings", "books"
   add_foreign_key "headings", "chapters"
